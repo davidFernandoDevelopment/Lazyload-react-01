@@ -4,7 +4,7 @@ import { createContext, ReactElement, CSSProperties } from 'react';
 import styles from '../styles/styles.module.css';
 
 import { useProduct } from '../hooks/useProduct';
-import { IProduct } from '../interfaces/interfaces';
+import { IProduct, IOChangeArgs } from '../interfaces/interfaces';
 import { IProductContextProps } from '../interfaces/interfaces';
 
 export const ProductContext = createContext({} as IProductContextProps);
@@ -15,15 +15,19 @@ export interface IProductCartProps {
 	children?: ReactElement | ReactElement[];
 	className?: string;
 	style?: CSSProperties;
+	onChange?: (args: IOChangeArgs) => void;
+	value?: number;
 }
 
 export const ProductCart = ({
 	product,
 	children,
 	className,
-	style
+	style,
+	onChange,
+	value,
 }: IProductCartProps) => {
-	const { counter, increaseBy } = useProduct(0);
+	const { counter, increaseBy } = useProduct({ onChange, product, value });
 
 	return (
 		<Provider
@@ -32,11 +36,8 @@ export const ProductCart = ({
 				increaseBy,
 				product,
 			}}>
-			<div 
-				className={`${styles.productCard} ${className}`}
-				style={style}
-			>
-					{children}
+			<div className={`${styles.productCard} ${className}`} style={style}>
+				{children}
 			</div>
 		</Provider>
 	);
