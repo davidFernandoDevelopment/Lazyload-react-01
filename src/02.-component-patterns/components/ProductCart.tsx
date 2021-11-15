@@ -1,22 +1,31 @@
 // Cuando usamos estilos modularizados son estilos únicos.
-import { createContext, ReactElement, CSSProperties } from 'react';
+import { createContext, CSSProperties } from 'react';
 
 import styles from '../styles/styles.module.css';
 
 import { useProduct } from '../hooks/useProduct';
-import { IProduct, IOChangeArgs } from '../interfaces/interfaces';
-import { IProductContextProps } from '../interfaces/interfaces';
+import {
+	IProduct,
+	IOChangeArgs,
+	InitialValues,
+} from '../interfaces/interfaces';
+import {
+	IProductContextProps,
+	ProductCartHandlers,
+} from '../interfaces/interfaces';
 
 export const ProductContext = createContext({} as IProductContextProps);
 const { Provider } = ProductContext;
 
-export interface IProductCartProps {
+export interface Props {
 	product: IProduct;
-	children?: ReactElement | ReactElement[];
+	// children?: ReactElement | ReactElement[];
+	children: (args: ProductCartHandlers) => JSX.Element;
 	className?: string;
 	style?: CSSProperties;
 	onChange?: (args: IOChangeArgs) => void;
 	value?: number;
+	initialValue?: InitialValues;
 }
 
 export const ProductCart = ({
@@ -26,18 +35,35 @@ export const ProductCart = ({
 	style,
 	onChange,
 	value,
-}: IProductCartProps) => {
-	const { counter, increaseBy } = useProduct({ onChange, product, value });
+	initialValue,
+}: Props) => {
+	const { counter, maxCount, isMaxCountReached, reset, increaseBy } =
+		useProduct({
+			onChange,
+			product,
+			value,
+			initialValue,
+		});
 
 	return (
 		<Provider
 			value={{
 				counter,
-				increaseBy,
 				product,
+				maxCount,
+
+				increaseBy,
 			}}>
 			<div className={`${styles.productCard} ${className}`} style={style}>
-				{children}
+				{children({
+					count: counter,
+					isMaxCountReached,
+					maxCount: initialValue?.maxCount,
+					product,
+
+					increaseBy,
+					reset,
+				})}
 			</div>
 		</Provider>
 	);

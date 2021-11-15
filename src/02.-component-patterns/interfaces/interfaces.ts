@@ -1,4 +1,4 @@
-import { IProductCartProps } from '../components/ProductCart';
+import { Props as ProductCartProps } from '../components/ProductCart';
 import { Props as ProductImageProps } from '../components/ProductImage';
 import { Props as ProductTitleProps } from '../components/ProductTitle';
 import { Props as ProductButtonProps } from '../components/ProductButton';
@@ -13,11 +13,12 @@ export interface IProduct {
 
 export interface IProductContextProps {
     counter: number;
-    increaseBy: (value: number) => void;
     product: IProduct;
+    maxCount?: number;
+    increaseBy: (value: number) => void;
 }
 export interface IProductCartHOCProps {
-    ({ children, product }: IProductCartProps): JSX.Element;
+    ({ children, product }: ProductCartProps): JSX.Element;
     Title: (Props: ProductTitleProps) => JSX.Element;
     Image: (Props: ProductImageProps) => JSX.Element;
     Button: (Props: ProductButtonProps) => JSX.Element;
@@ -30,4 +31,19 @@ export interface IOChangeArgs {
 
 export interface ProductInCart extends IProduct {
     count: number;
+}
+
+export interface InitialValues {
+    count?: number;
+    maxCount?: number;
+}
+
+export interface ProductCartHandlers {
+    count: number;
+    isMaxCountReached: boolean;
+    maxCount?: number;
+    product: IProduct;
+
+    increaseBy: (value: number) => void;
+    reset: () => void;
 }
