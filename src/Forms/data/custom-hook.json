@@ -1,0 +1,66 @@
+[
+    {
+        "type": "input",
+        "name": "email",
+        "placeholder": "Ingrese su email",
+        "label": "Email",
+        "value": "",
+        "validations": [
+            {
+                "type": "required"
+            },
+            {
+                "type": "email"
+            }
+        ]
+    },
+    {
+        "type": "password",
+        "name": "password",
+        "placeholder": "Ingrese su contraseña",
+        "label": "Password",
+        "value": "",
+        "validations": [
+            {
+                "type": "required"
+            },
+            {
+                "type": "minLength",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "type": "password",
+        "name": "password2",
+        "placeholder": "Repita su contraseña",
+        "label": "Confirmar contraseña",
+        "value": "",
+        "validations": [
+            {
+                "type": "required"
+            }
+        ]
+    },
+    {
+        "type": "select",
+        "name": "favoriteGame",
+        "label": "Juegos favoritos",
+        "value": "",
+        "options": [
+            {
+                "id": 1,
+                "description": "Mario car"
+            },
+            {
+                "id": 2,
+                "description": "lef four dead"
+            }
+        ],
+        "validations": [
+            {
+                "type": "required"
+            }
+        ]
+    }
+]
